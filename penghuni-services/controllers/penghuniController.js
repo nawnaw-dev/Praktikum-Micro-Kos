@@ -1,27 +1,20 @@
-let penghuni = [];
+const service = require('../services/penghuniService');
 
-// GET
 exports.getAllPenghuni = (req, res) => {
-    res.json(penghuni);
+    res.json(service.getAll());
 };
 
-// POST
 exports.createPenghuni = (req, res) => {
-    const data = req.body;
-    penghuni.push(data);
+    const data = service.create(req.body);
     res.json({ message: "Penghuni ditambahkan", data });
 };
 
-// PUT
 exports.updatePenghuni = (req, res) => {
-    const id = req.params.id;
-    penghuni[id] = req.body;
-    res.json({ message: "Penghuni diupdate" });
+    const data = service.update(req.params.id, req.body);
+    res.json({ message: "Penghuni diupdate", data });
 };
 
-// DELETE
 exports.deletePenghuni = (req, res) => {
-    const id = req.params.id;
-    penghuni.splice(id, 1);
+    service.remove(req.params.id);
     res.json({ message: "Penghuni dihapus" });
 };
