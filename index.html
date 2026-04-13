@@ -1,0 +1,63 @@
+const express = require('express');
+const app = express();
+const port = 3004;
+
+app.use(express.json());
+
+// In-memory storage for aturan
+let aturan = [
+  { id: 1, name: 'Aturan 1', description: 'Deskripsi aturan pertama' },
+  { id: 2, name: 'Aturan 2', description: 'Deskripsi aturan kedua' }
+];
+
+// Get all aturan
+app.get('/aturan', (req, res) => {
+  res.status(200).json(aturan);
+});
+
+// Get aturan by id
+app.get('/aturan/:id', (req, res) => {
+  const { id } = req.params;
+  const found = aturan.find(a => a.id === parseInt(id));
+
+  if (!found) return res.status(404).send('Aturan not found');
+  res.status(200).json(found);
+});
+
+// Create a new aturan
+app.post('/aturan', (req, res) => {
+  const { name, description } = req.body;
+  const newAturan = { id: aturan.length + 1, name, description };
+  aturan.push(newAturan);
+  res.status(201).json(newAturan);
+});
+
+// Update aturan by id
+app.put('/aturan/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+
+  let found = aturan.find(a => a.id === parseInt(id));
+  if (!found) return res.status(404).send('Aturan not found');
+
+  found.name = name || found.name;
+  found.description = description || found.description;
+
+  res.status(200).json(found);
+});
+
+// Delete aturan by id
+app.delete('/aturan/:id', (req, res) => {
+  const { id } = req.params;
+  let index = aturan.findIndex(a => a.id === parseInt(id));
+
+  if (index === -1) return res.status(404).send('Aturan not found');
+
+  aturan.splice(index, 1);
+  res.status(204).send();
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Aturan service running at http://localhost:${port}`);
+});
