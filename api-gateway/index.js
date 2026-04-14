@@ -15,7 +15,7 @@ app.use(
 app.use(
   "/penghuni",
   createProxyMiddleware({
-    target: "http://penghuni-services:3003",
+    target: "http://penghuni-service:3003",
     changeOrigin: true,
   }),
 );
@@ -23,7 +23,7 @@ app.use(
 app.use(
   "/kamar",
   createProxyMiddleware({
-    target: "http://kamar-services:3001",
+    target: "http://kamar-service:3001",
     changeOrigin: true,
   }),
 );
