@@ -1,15 +1,20 @@
 const express = require("express");
 const app = express();
-const PORT = 3002;
-
-const userRoutes = require("./routes/userRoutes");
 
 app.use(express.json());
-app.use("/users", userRoutes);
+
+let users = [];
 
 app.get("/", (req, res) => {
-  res.send("User Service Running 🚀");
+  res.json(users);
 });
+
+app.post("/", (req, res) => {
+  users.push(req.body);
+  res.json({ message: "Users ditambah" });
+});
+
+const PORT = 3002;
 
 app.listen(PORT, () => {
   console.log(`User service running on port ${PORT}`);

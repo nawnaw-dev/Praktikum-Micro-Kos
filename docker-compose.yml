@@ -1,0 +1,30 @@
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "3002:3002"
+
+  penghuni-services:
+    build: ./penghuni-services
+    ports:
+      - "3003:3003"
+
+  kamar-services:
+    build: ./kamar-services
+    ports:
+      - "3001:3001"
+
+  aturan-service:
+    build: ./aturan-service
+    ports:
+      - "3004:3004"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - penghuni-services
+      - kamar-services
+      - aturan-service

@@ -1,13 +1,25 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const penghuniRoutes = require('./routes/penghuniRoutes');
 
 app.use(express.json());
 
-// route utama
-app.use('/penghuni', penghuniRoutes);
+let penghuni = [];
+
+app.get("/", (req, res) => {
+  res.json(penghuni);
+});
+
+app.post("/", (req, res) => {
+  penghuni.push(req.body);
+  res.json({ message: "Penghuni ditambah" });
+});
+
+app.get("/:id", (req, res) => {
+  res.json(penghuni.find((k) => k.id == req.params.id));
+});
 
 const PORT = 3003;
+
 app.listen(PORT, () => {
-    console.log(`Penghuni Service running on port ${PORT}`);
+  console.log(`Penghuni service running on port ${PORT}`);
 });
